@@ -13,6 +13,7 @@ val sparkStreaming = "org.apache.spark" %% "spark-streaming" % sparkVersion
 val commonsIo = "commons-io"              %  "commons-io"           % "2.4"
 val scopt = "com.github.scopt"        %% "scopt"                % "3.3.0"
 
+// Add comment for check "Dependency graph" availability 
 resolvers ++= Seq(
   Resolver.sonatypeRepo("release"),
   Resolver.sonatypeRepo("public"),
