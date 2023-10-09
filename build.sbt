@@ -17,7 +17,7 @@ resolvers ++= Seq(
   Resolver.sonatypeRepo("release"),
   Resolver.sonatypeRepo("public"),
   Resolver.mavenLocal,
-  "Typesafe Releases" at "http://repo.typesafe.com/typesafe/maven-releases/"
+  "Typesafe Releases" at "https://repo.typesafe.com/typesafe/maven-releases/"
 )
 
 libraryDependencies ++=
