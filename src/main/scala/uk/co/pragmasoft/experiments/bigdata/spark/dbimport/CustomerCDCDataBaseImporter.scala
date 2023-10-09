@@ -1,7 +1,7 @@
 package uk.co.pragmasoft.experiments.bigdata.spark.dbimport
 
-
 import org.apache.spark.sql.SQLContext
+
 import org.apache.spark.{SparkConf, SparkContext}
 import scopt.OptionParser
 import uk.co.pragmasoft.experiments.bigdata.spark.cdc.Cdc._
@@ -62,6 +62,13 @@ object CustomerCDCDataBaseImporter extends App with CdcSupport {
   val sc = new SparkContext(sparkConf)
   val sqlContext = new SQLContext(sc)
 
+  import org.apache.spark.sql.SparkSession
+
+  val spark: org.apache.spark.sql.SparkSession = org.apache.spark.sql.SparkSession.active
+
+  import spark.implicits._
+
+
   val dbConnectionUrl = s"jdbc:oracle:thin:$dbServerConnection:$dbName"
 
   println(s"Connecting to '$dbConnectionUrl'")
@@ -98,7 +105,7 @@ object CustomerCDCDataBaseImporter extends App with CdcSupport {
     .map( lineWithErrorDescription => s"""${lineWithErrorDescription._1}: errors: '${lineWithErrorDescription._2.mkString(",")}'""" )
     .saveAsTextFile(filePath("out/errors.txt"))
 
-  computeCdc( { customer: CustomerData => customer.customerId } )(newCustomerData, previousSnapshot)
+  computeCdc( { customer: CustomerData => customer.customerId } )(newCustomerData.rdd, previousSnapshot)
     .map( customerCdc => printAsStringArray(customerCdc)(CustomerData.asStringArray) )
     .addHeader(sc)( "customerId", "name", "address", "cdc" )
     .writeAsCsv( filePath("out/cdc.csv") )
