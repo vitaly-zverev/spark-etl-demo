@@ -30,9 +30,10 @@ resolvers ++= Seq(
 libraryDependencies ++=
   ( Seq( sparkCore, sparkSql, sparkStreaming ) map { _ % "provided" } ) ++
   Seq(
-    "org.scalatest" %% "scalatest" % "3.2.17" % "test",
+    "org.scalatest" %% "scalatest" % "3.0.9" % "test",
     commonsIo,
-    scopt
+    scopt,
+    "commons-lang" % "commons-lang" % "2.6"
   )
 
 test in assembly := {}
